@@ -11,44 +11,49 @@ const CartItem = ({ onContinueShopping }) => {
     const calculateTotalAmount = () => {
         let result = 0;
 
-        // TODO KenichiroArai 2024/11/03 Task3-1
-        console.log(cart);
+        cart.forEach(item => {
+            const cost = item.cost.substr(1, item.cost.length);
+            result += cost * item.quantity;
+        });
 
         return result;
     };
 
     const handleContinueShopping = (e) => {
-        // TODO KenichiroArai 2024/11/03 Task3-2
+        onContinueShopping(e);
     };
 
-
-
     const handleIncrement = (item) => {
-        console.log('handleIncrement：前：' + item.quantity);
-        // item.quantity = item.quantity + 1;
-        console.log('handleIncrement：後');
-        dispatch(updateQuantity(item));
+        const updatedItem = {
+            ...item,
+            quantity: item.quantity + 1,
+        };
+        dispatch(updateQuantity(updatedItem));
     };
 
     const handleDecrement = (item) => {
-        item.quantity--;
-        if (item.quantity <= 0) {
-            dispatch(removeItem(item));
+        if (item.quantity - 1 <= 0) {
+            dispatch(removeItem(item.name));
             return;
         }
-        dispatch(updateQuantity(item));
+        const updatedItem = {
+            ...item,
+            quantity: item.quantity - 1,
+        };
+        dispatch(updateQuantity(updatedItem));
     };
 
     const handleRemove = (item) => {
-        dispatch(removeItem(item));
+        dispatch(removeItem(item.name));
     };
 
     // Calculate total cost based on quantity for an item
     const calculateTotalCost = (item) => {
+
         let result = 0;
 
-        // TODO KenichiroArai 2024/11/03 Task3-6
-        console.log(item);
+        const cost = item.cost.substr(1, item.cost.length);
+        result += cost * item.quantity;
 
         return result;
     };
